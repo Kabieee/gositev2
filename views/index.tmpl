@@ -1,0 +1,93 @@
+{{define "css"}}
+    <style>
+        .card-item {
+            margin-bottom: 2rem;
+        }
+
+        .img-box {
+            width: 100%;
+            height: 80%;
+        }
+
+        .img-box img {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+{{end}}
+
+{{define "content-middle"}}
+    {{if .RenderData.Content.List}}
+        {{range $key,$item := .RenderData.Content.List}}
+            <div class="card shadow-3 rounded card-item">
+                <div class="img-box">
+                    <a href="{{$item.FullImageUrl}}" target="_blank">
+                        <img class="card-img-top shadow-2-strong"
+                             src="/static/image/image.png"
+                             data-echo="{{$item.FullImageUrl}}"
+                             alt="Card image cap"
+                        >
+                    </a>
+
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title">{{or $item.Title $item.Copyright}}</h5>
+                    <p class="card-text">{{$item.Copyright}}</p>
+                    <a href="{{$item.Copyrightlink}}" target="_blank" class="btn btn-primary">Copyright Link</a>
+                </div>
+
+                <div class="card-footer text-muted">{{ FormatDate "" $item.CreatedAt }}</div>
+            </div>
+        {{end}}
+    {{else}}
+
+        <div class="alert alert-primary mb-0" role="alert" data-mdb-color="danger" style="word-break: break-all">
+            Record Not Found
+        </div>
+
+    {{end}}
+
+
+{{end}}
+
+{{define "content-bottom"}}
+    {{if .RenderData.Content.List}}
+        <div style="width: 100%">
+            {{$pagination := .RenderData.Content.Pagination}}
+            <ul class="pagination justify-content-center" style="margin-bottom: 0">
+                <li class="page-item {{or $pagination.Previous "disabled"}}">
+                    <a class="page-link" href="{{$pagination.PreviousUrl}}" tabindex="-1">Prev</a>
+                </li>
+                {{range $pagination.PageUrls}}
+                    <li class="page-item {{.class}}">
+                        <a class="page-link" href="{{.url}}">{{.page}}</a>
+                    </li>
+                {{end}}
+                <li class="page-item {{or $pagination.Next "disabled"}}">
+                    <a class="page-link" href="{{$pagination.NextUrl}}">Next</a>
+
+                </li>
+            </ul>
+            <div style="width: 100%;text-align: center;" class="my-2 form-control-sm">
+                <span>共{{.RenderData.Content.TotalCount}}条记录</span>
+            </div>
+        </div>
+    {{end}}
+
+{{end}}
+
+
+{{define "js"}}
+    <script type="text/javascript" src="/static/js/echo.js"></script>
+    <script type="text/javascript">
+        echo.init({
+            offset: 100,
+            throttle: 250,
+            unload: false,
+            callback: function (element, op) {
+                // console.log(element, 'has been', op + 'ed')
+            }
+        })
+    </script>
+{{end}}

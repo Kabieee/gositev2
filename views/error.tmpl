@@ -1,0 +1,20 @@
+{{define "content-middle"}}
+    <div class="alert alert-danger mb-0" role="alert" data-mdb-color="danger" style="word-break: break-all">
+        <h3>{{.Status}} {{.Message}}</h3>
+        {{.Err.ErrorString}}
+        <div class="mt-2">
+            <div style="font-size: 1.2rem" class="font-weight-bold">Error Stack</div>
+            {{range .Err.ErrorStack}}
+                <div>{{.}}</div>
+            {{end}}
+        </div>
+
+
+    </div>
+
+{{end}}
+
+
+
+
+
